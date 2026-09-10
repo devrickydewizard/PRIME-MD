@@ -11,7 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const JavaScriptObfuscator = require('javascript-obfuscator');
+const JavaScriptObfuscator = require(process.env.OBF_MODULE || '/data/data/com.termux/files/home/.tools/obf/node_modules/javascript-obfuscator');
 
 const ROOT = __dirname;
 const SRC = path.join(ROOT, 'src');
