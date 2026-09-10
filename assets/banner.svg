@@ -1,0 +1,79 @@
+<svg width="900" height="320" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>PRIME-MD banner</title>
+<desc>A noir, 1920s-gangster styled illustration of a silhouetted figure in a fedora and coat, with the text PRIME-MD and Powered by Rickydewizard.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0c0e14"/>
+    <stop offset="100%" stop-color="#181c26"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="72%" cy="45%" r="55%">
+    <stop offset="0%" stop-color="#3a2f14"/>
+    <stop offset="100%" stop-color="#0c0e14" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+
+<rect x="0" y="0" width="900" height="320" fill="url(#bg)"/>
+<rect x="0" y="0" width="900" height="320" fill="url(#glow)"/>
+
+<!-- art deco sunburst behind figure -->
+<g stroke="#8a6d2f" stroke-width="1.5" opacity="0.35">
+  <g transform="translate(660,160)">
+    <line x1="0" y1="0" x2="0" y2="-140"/>
+    <line x1="0" y1="0" x2="48" y2="-133" transform="rotate(15 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(30 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(-15 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(-30 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(45 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(-45 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(60 0 0)"/>
+    <line x1="0" y1="0" x2="0" y2="-140" transform="rotate(-60 0 0)"/>
+  </g>
+</g>
+
+<!-- corner deco frame -->
+<g stroke="#8a6d2f" stroke-width="2" opacity="0.6" fill="none">
+  <path d="M20 20 H80 M20 20 V80"/>
+  <path d="M880 20 H820 M880 20 V80"/>
+  <path d="M20 300 H80 M20 300 V240"/>
+  <path d="M880 300 H820 M880 300 V240"/>
+</g>
+
+<!-- silhouette: fedora + coat, three-quarter figure -->
+<g transform="translate(660,150)" fill="#05060a">
+  <!-- coat body -->
+  <path d="M-70 190 
+           Q-78 90 -55 40
+           Q-40 10 0 0
+           Q40 10 55 40
+           Q78 90 70 190
+           Z"/>
+  <!-- shoulders/lapel hint -->
+  <path d="M-55 40 L-20 65 L0 45 L20 65 L55 40 L30 20 L0 30 L-30 20 Z" fill="#05060a"/>
+  <!-- neck -->
+  <rect x="-14" y="-8" width="28" height="26" rx="6"/>
+  <!-- head -->
+  <circle cx="0" cy="-38" r="30"/>
+  <!-- fedora brim -->
+  <ellipse cx="0" cy="-58" rx="46" ry="10"/>
+  <!-- fedora crown -->
+  <path d="M-26 -60 Q-24 -92 0 -96 Q24 -92 26 -60 Q0 -68 -26 -60 Z"/>
+  <!-- hat band -->
+  <rect x="-26" y="-64" width="52" height="6"/>
+  <!-- cigarette -->
+  <rect x="26" y="-40" width="20" height="4" rx="2" fill="#c9a24a"/>
+</g>
+
+<!-- rising smoke -->
+<g stroke="#8a6d2f" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round">
+  <path d="M706 -222 Q716 -240 704 -258 Q694 -276 708 -292" transform="translate(0,320)"/>
+</g>
+
+<!-- title -->
+<text x="60" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700" fill="#e9dfc4" letter-spacing="4">PRIME-MD</text>
+<rect x="62" y="168" width="360" height="3" fill="#8a6d2f"/>
+<text x="60" y="200" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#a99a6f" letter-spacing="3">MULTI-DEVICE WHATSAPP BOT</text>
+
+<!-- powered by -->
+<text x="60" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="16" fill="#8a6d2f" letter-spacing="2">POWERED BY</text>
+<text x="60" y="278" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#e9dfc4" letter-spacing="2">RICKYDEWIZARD</text>
+</svg>

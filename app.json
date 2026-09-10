@@ -1,0 +1,208 @@
+{
+  "name": "PRIME-MD",
+  "version": "10.0.0",
+  "description": "PRIME-MD is a powerful Multi Device WhatsApp Bot designed to enhance automation, moderation, and user experience on WhatsApp.",
+  "logo": "https://files.catbox.moe/m8t72a.jpg",
+  "keywords": [
+    "PRIME-MD",
+    "whatsapp-bot",
+    "multi-device",
+    "baileys",
+    "automation",
+    "bot"
+  ],
+
+  "success_url": "/",
+
+  "stack": "heroku-22",
+
+  "env": {
+    "SESSION_ID": {
+      "description": "Your WhatsApp SESSION_ID. Generate it from the pairing website.",
+      "required": true,
+      "value": ""
+    },
+
+    "PREFIX": {
+      "description": "Bot command prefix.",
+      "required": false,
+      "value": "."
+    },
+
+    "OWNER_NAME": {
+      "description": "Bot owner name.",
+      "required": false,
+      "value": "RICKYDEWIZARD"
+    },
+
+    "OWNER_NUMBER": {
+      "description": "Owner WhatsApp number without + sign.",
+      "required": false,
+      "value": "254757047860"
+    },
+
+    "BOT_NAME": {
+      "description": "Your bot display name.",
+      "required": false,
+      "value": "PRIME-MD"
+    },
+
+    "BOT_PIC": {
+      "description": "Bot menu profile image URL.",
+      "required": false,
+      "value": "https://files.catbox.moe/oldb9c.jpeg"
+    },
+
+    "MODE": {
+      "description": "Use public - groups - private mode.",
+      "required": true,
+      "value": "public"
+    },
+
+    "WARN_COUNT": {
+      "description": "Maximum warning limit.",
+      "required": false,
+      "value": "3"
+    },
+
+    "TIME_ZONE": {
+      "description": "Timezone e.g Africa/Nairobi.",
+      "required": false,
+      "value": "Africa/Nairobi"
+    },
+
+    "DM_PRESENCE": {
+      "description": "Presence status in DM.",
+      "required": false,
+      "value": "offline"
+    },
+
+    "GC_PRESENCE": {
+      "description": "Presence status in Groups.",
+      "required": false,
+      "value": "offline"
+    },
+
+    "ANTIDELETE": {
+      "description": "Enable anti-delete mode.",
+      "required": false,
+      "value": "indm"
+    },
+
+    "ANTICALL": {
+      "description": "Auto reject calls true/false.",
+      "required": false,
+      "value": "false"
+    },
+
+    "ANTICALL_MSG": {
+      "description": "Message sent when rejecting calls.",
+      "required": false,
+      "value": "*_📞 Auto Call Reject Mode Active. 📵 No Calls Allowed!_*"
+    },
+
+    "AUTO_LIKE_STATUS": {
+      "description": "Auto-like WhatsApp statuses.",
+      "required": false,
+      "value": "true"
+    },
+
+    "AUTO_READ_STATUS": {
+      "description": "Auto-view WhatsApp statuses.",
+      "required": false,
+      "value": "true"
+    },
+
+    "STATUS_LIKE_EMOJIS": {
+      "description": "Status reaction emojis separated by commas.",
+      "required": false,
+      "value": "💛,❤️,💜,🤍,💙"
+    },
+
+    "AUTO_REPLY_STATUS": {
+      "description": "Auto reply to statuses.",
+      "required": false,
+      "value": "false"
+    },
+
+    "STATUS_REPLY_TEXT": {
+      "description": "Reply text for viewed statuses.",
+      "required": false,
+      "value": "*status viewed successfully ✅*"
+    },
+
+    "AUTO_READ_MESSAGES": {
+      "description": "Auto read messages.",
+      "required": false,
+      "value": "off"
+    },
+
+    "AUTO_BIO": {
+      "description": "Enable auto bio update.",
+      "required": false,
+      "value": "false"
+    },
+
+    "AUTO_BLOCK": {
+      "description": "Numbers to auto block.",
+      "required": false,
+      "value": ""
+    },
+
+    "PACK_NAME": {
+      "description": "Sticker pack name.",
+      "required": false,
+      "value": ""
+    },
+
+    "PACK_AUTHOR": {
+      "description": "Sticker pack author.",
+      "required": false,
+      "value": "PRIME-MD BOT"
+    },
+
+    "SUDO_NUMBERS": {
+      "description": "Sudo numbers separated by commas.",
+      "required": false,
+      "value": ""
+    },
+
+    "DATABASE_URL": {
+      "description": "PostgreSQL connection URL.",
+      "required": false,
+      "value": ""
+    }
+  },
+
+  "addons": [
+    {
+      "plan": "heroku-postgresql:essential-0",
+      "as": "DATABASE"
+    }
+  ],
+
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    }
+  ],
+
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+
+  "environments": {
+    "test": {
+      "addons": [],
+      "env": {
+        "DATABASE_URL": ""
+      }
+    }
+  }
+}
