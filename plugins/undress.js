@@ -248,7 +248,7 @@ cmd(
       } catch {}
 
       let attempts = 0;
-      const maxAttempts = 48;
+      const maxAttempts = 90;
       let lastUpdateMsg = null;
       let lastStatusIndex = -1;
 
