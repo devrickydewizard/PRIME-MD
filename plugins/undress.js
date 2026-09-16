@@ -2,11 +2,7 @@ const { cmd } = require("../lib");
 const axios = require("axios");
 const crypto = require("crypto");
 const { downloadMediaMessage } = require("@whiskeysockets/baileys");
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
 
-// ── Encryption helpers ──────────────────────────────────────────────────────
 function aesEncrypt(data, key, iv) {
   const cipher = crypto.createCipheriv(
     "aes-128-cbc",
@@ -82,18 +78,13 @@ const PROMPT_EMOJIS = {
   lingerie: "💋",
 };
 
-/**
- * Extract imageMessage from various quoted shapes used by Baileys / this bot.
- */
-function extractImageMessage(quoted, quotedMsg, ms) {
-  // Preferred: serializer quoted object
+function extractImageMessage(quoted, quotedMsg, m) {
   if (quoted?.imageMessage) return quoted.imageMessage;
   if (quotedMsg?.imageMessage) return quotedMsg.imageMessage;
 
-  // Raw contextInfo path
   const ctx =
-    ms?.message?.extendedTextMessage?.contextInfo ||
-    ms?.message?.imageMessage?.contextInfo ||
+    m?.message?.extendedTextMessage?.contextInfo ||
+    m?.message?.imageMessage?.contextInfo ||
     null;
   const qm = ctx?.quotedMessage;
   if (qm?.imageMessage) return qm.imageMessage;
@@ -104,9 +95,7 @@ function extractImageMessage(quoted, quotedMsg, ms) {
   if (qm?.ephemeralMessage?.message?.imageMessage)
     return qm.ephemeralMessage.message.imageMessage;
 
-  // Direct image (user sent image with caption .undress)
-  if (ms?.message?.imageMessage) return ms.message.imageMessage;
-
+  if (m?.message?.imageMessage) return m.message.imageMessage;
   return null;
 }
 
@@ -119,46 +108,56 @@ cmd(
     description: "AI clothes remover — reply to an image. Owner only.",
   },
   async (from, sock, conText) => {
+    // This bot uses m / mek — not msg
     const {
       reply,
       quoted,
       quotedMsg,
+      quotedKey,
       isSuperUser,
       q,
-      msg,
-      sender,
+      m,
+      mek,
+      react,
     } = conText;
+
+    const ms = m || mek;
+    if (!ms || !ms.key) {
+      return reply("❌ Internal error: message object missing.");
+    }
 
     if (!isSuperUser) {
       return reply("❌ This command is only available for the owner!");
     }
 
-    const imageMsg = extractImageMessage(quoted, quotedMsg, msg);
+    const imageMsg = extractImageMessage(quoted, quotedMsg, ms);
     if (!imageMsg) {
       return reply(
         "📷 *Reply to an image* with `.undress`\n\n*Styles:* nude, bikini, topless, underwear, naked, swimsuit, lingerie\n*Example:* `.undress bikini`"
       );
     }
 
-    let tempPath = null;
-
     try {
-      await sock.sendMessage(from, {
-        react: { text: "⏳", key: msg.key },
-      });
+      try {
+        await react("⏳");
+      } catch {
+        await sock.sendMessage(from, {
+          react: { text: "⏳", key: ms.key },
+        });
+      }
 
       const initialMsg = await sock.sendMessage(
         from,
         { text: "🔄 *Processing your image...*\n_Uploading & analyzing..._" },
-        { quoted: msg }
+        { quoted: ms }
       );
 
-      // Download via Baileys
+      const downloadTarget = quotedKey
+        ? { key: quotedKey, message: { imageMessage: imageMsg } }
+        : { key: ms.key, message: { imageMessage: imageMsg } };
+
       const buffer = await downloadMediaMessage(
-        {
-          key: msg.key,
-          message: { imageMessage: imageMsg },
-        },
+        downloadTarget,
         "buffer",
         {},
         { logger: console, reuploadRequest: sock.updateMediaMessage }
@@ -197,7 +196,6 @@ cmd(
         timeout: 45000,
       });
 
-      // Upload sign
       const hash = crypto.createHash("sha256").update(buffer).digest("hex");
       const filename = genRandom(32) + "_" + Date.now() + ".jpg";
       const uploadResponse = await instance.post("/user/v2/upload-sign", {
@@ -247,9 +245,7 @@ cmd(
           text: `✅ *Task ready!*\n🔥 Style: ${promptEmoji} ${prompt}\n🆔 ID: \`${taskId.slice(0, 8)}\`\n_✨ processing..._`,
           edit: initialMsg.key,
         });
-      } catch {
-        // edit may fail on some clients
-      }
+      } catch {}
 
       let attempts = 0;
       const maxAttempts = 48;
@@ -266,8 +262,7 @@ cmd(
             "/img/v2/free/clothes/remover/task",
             { params: { user_id: userId, task_id: taskId } }
           );
-        } catch (pollErr) {
-          console.warn("[undress] poll error:", pollErr?.message);
+        } catch {
           continue;
         }
 
@@ -280,11 +275,15 @@ cmd(
               image: { url: data.data.generate_url },
               caption: `🖼️ *AI Processed Image*\n🎨 Style: ${promptEmoji} ${prompt}\n⏱️ *Time:* ${timeTaken}s\n\n📌 *Powered by PRIME-MD*`,
             },
-            { quoted: msg }
+            { quoted: ms }
           );
-          await sock.sendMessage(from, {
-            react: { text: "✅", key: msg.key },
-          });
+          try {
+            await react("✅");
+          } catch {
+            await sock.sendMessage(from, {
+              react: { text: "✅", key: ms.key },
+            });
+          }
           if (lastUpdateMsg) {
             try {
               await sock.sendMessage(from, { delete: lastUpdateMsg.key });
@@ -293,7 +292,6 @@ cmd(
           return;
         }
 
-        // failed state from API
         if (
           data?.data?.status === "failed" ||
           data?.msg === "failed" ||
@@ -321,7 +319,7 @@ cmd(
               lastUpdateMsg = await sock.sendMessage(
                 from,
                 { text: coolMsg },
-                { quoted: msg }
+                { quoted: ms }
               );
             }
           } catch {}
@@ -332,10 +330,14 @@ cmd(
     } catch (error) {
       console.error("undress Error:", error?.response?.data || error);
       try {
-        await sock.sendMessage(from, {
-          react: { text: "❌", key: msg.key },
-        });
-      } catch {}
+        await react("❌");
+      } catch {
+        try {
+          await sock.sendMessage(from, {
+            react: { text: "❌", key: ms.key },
+          });
+        } catch {}
+      }
 
       let errorMsg = error.message || String(error);
       if (error.response?.status === 401)
@@ -345,12 +347,6 @@ cmd(
       else if (error.response?.data?.msg) errorMsg = error.response.data.msg;
 
       await reply(`❌ *Error:* ${errorMsg}`);
-    } finally {
-      if (tempPath) {
-        try {
-          fs.unlinkSync(tempPath);
-        } catch {}
-      }
     }
   }
 );
