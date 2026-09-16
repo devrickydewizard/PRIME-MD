@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+.env
+.env.*
+pair_temp/
+pair_auth_temp/
+*.db
+.DS_Store
+'\~'
+src/

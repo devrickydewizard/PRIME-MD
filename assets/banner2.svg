@@ -1,0 +1,79 @@
+<svg width="900" height="320" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>PRIME-MD banner</title>
+<desc>A cold-toned illustration of a silhouetted figure in a flat cap and waistcoat with a pocket watch chain, in an industrial early-20th-century style, with the text PRIME-MD and Powered by Rickydewizard.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0b1016"/>
+    <stop offset="100%" stop-color="#1b2530"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="72%" cy="45%" r="55%">
+    <stop offset="0%" stop-color="#26333f"/>
+    <stop offset="100%" stop-color="#0b1016" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+
+<rect x="0" y="0" width="900" height="320" fill="url(#bg)"/>
+<rect x="0" y="0" width="900" height="320" fill="url(#glow)"/>
+
+<!-- factory chimneys / brick backdrop hint -->
+<g fill="#151d26" opacity="0.6">
+  <rect x="740" y="0" width="26" height="320"/>
+  <rect x="800" y="30" width="20" height="290"/>
+  <rect x="850" y="10" width="18" height="310"/>
+</g>
+<g stroke="#3a4a58" stroke-width="1" opacity="0.4">
+  <line x1="740" y1="0" x2="740" y2="320"/>
+  <line x1="766" y1="0" x2="766" y2="320"/>
+  <line x1="800" y1="30" x2="800" y2="320"/>
+  <line x1="820" y1="30" x2="820" y2="320"/>
+</g>
+
+<!-- corner deco frame -->
+<g stroke="#6f8494" stroke-width="2" opacity="0.6" fill="none">
+  <path d="M20 20 H80 M20 20 V80"/>
+  <path d="M880 20 H820 M880 20 V80"/>
+  <path d="M20 300 H80 M20 300 V240"/>
+  <path d="M880 300 H820 M880 300 V240"/>
+</g>
+
+<!-- silhouette: flat cap + waistcoat, three-quarter figure -->
+<g transform="translate(660,150)" fill="#04070a">
+  <!-- coat body -->
+  <path d="M-70 190
+           Q-78 90 -55 40
+           Q-40 10 0 0
+           Q40 10 55 40
+           Q78 90 70 190
+           Z"/>
+  <!-- open coat revealing waistcoat -->
+  <path d="M-40 30 L-14 190 L14 190 L40 30 L18 20 L0 34 L-18 20 Z" fill="#1c2733"/>
+  <!-- waistcoat buttons -->
+  <circle cx="0" cy="70" r="2.5" fill="#6f8494"/>
+  <circle cx="0" cy="95" r="2.5" fill="#6f8494"/>
+  <circle cx="0" cy="120" r="2.5" fill="#6f8494"/>
+  <!-- watch chain -->
+  <path d="M-6 90 Q10 110 6 140 Q2 158 18 165" fill="none" stroke="#9c8a4e" stroke-width="2.5"/>
+  <circle cx="18" cy="167" r="5" fill="#c9a24a"/>
+  <!-- shoulders/lapel -->
+  <path d="M-55 40 L-20 65 L0 45 L20 65 L55 40 L30 20 L0 30 L-30 20 Z" fill="#04070a"/>
+  <!-- neck -->
+  <rect x="-14" y="-8" width="28" height="26" rx="6"/>
+  <!-- head -->
+  <circle cx="0" cy="-38" r="30"/>
+  <!-- flat cap crown -->
+  <path d="M-30 -55 Q-32 -86 0 -90 Q32 -86 30 -55 Q0 -66 -30 -55 Z"/>
+  <!-- flat cap brim (small peak, front only) -->
+  <path d="M6 -56 Q34 -54 40 -46 Q30 -50 6 -50 Z"/>
+  <!-- cap button on top -->
+  <circle cx="0" cy="-89" r="2.5" fill="#6f8494"/>
+</g>
+
+<!-- title -->
+<text x="60" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700" fill="#dbe6ec" letter-spacing="4">PRIME-MD</text>
+<rect x="62" y="168" width="360" height="3" fill="#6f8494"/>
+<text x="60" y="200" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#8fa3b0" letter-spacing="3">MULTI-DEVICE WHATSAPP BOT</text>
+
+<!-- powered by -->
+<text x="60" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="16" fill="#6f8494" letter-spacing="2">POWERED BY</text>
+<text x="60" y="278" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#dbe6ec" letter-spacing="2">RICKYDEWIZARD</text>
+</svg>
