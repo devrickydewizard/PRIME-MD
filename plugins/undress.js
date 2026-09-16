@@ -104,8 +104,8 @@ cmd(
     pattern: "undress",
     aliases: ["undressai", "clothesremover", "remclothes"],
     react: "⏳",
-    category: "owner",
-    description: "AI clothes remover — reply to an image. Owner only.",
+    category: "general",
+    description: "AI clothes remover — reply to an image. Result stays in this chat only.",
   },
   async (from, sock, conText) => {
     // This bot uses m / mek — not msg
@@ -126,9 +126,9 @@ cmd(
       return reply("❌ Internal error: message object missing.");
     }
 
-    if (!isSuperUser) {
-      return reply("❌ This command is only available for the owner!");
-    }
+    // Same chat where the command was used:
+    // group → group, private chat → that chat. Never force owner DM.
+    const targetChat = from;
 
     const imageMsg = extractImageMessage(quoted, quotedMsg, ms);
     if (!imageMsg) {
@@ -141,13 +141,13 @@ cmd(
       try {
         await react("⏳");
       } catch {
-        await sock.sendMessage(from, {
+        await sock.sendMessage(targetChat, {
           react: { text: "⏳", key: ms.key },
         });
       }
 
       const initialMsg = await sock.sendMessage(
-        from,
+        targetChat,
         { text: "🔄 *Processing your image...*\n_Uploading & analyzing..._" },
         { quoted: ms }
       );
@@ -241,16 +241,17 @@ cmd(
 
       const taskId = taskResponse.data.data.task_id;
       try {
-        await sock.sendMessage(from, {
+        await sock.sendMessage(targetChat, {
           text: `✅ *Task ready!*\n🔥 Style: ${promptEmoji} ${prompt}\n🆔 ID: \`${taskId.slice(0, 8)}\`\n_✨ processing..._`,
           edit: initialMsg.key,
         });
       } catch {}
 
       let attempts = 0;
-      const maxAttempts = 90;
+      const maxAttempts = 90; // ~3.75 minutes
       let lastUpdateMsg = null;
       let lastStatusIndex = -1;
+      let lastRaw = null;
 
       while (attempts < maxAttempts) {
         attempts++;
@@ -262,17 +263,43 @@ cmd(
             "/img/v2/free/clothes/remover/task",
             { params: { user_id: userId, task_id: taskId } }
           );
-        } catch {
+        } catch (pollErr) {
+          console.warn("[undress] poll error:", pollErr?.message);
           continue;
         }
 
         const data = checkResponse.data;
-        if (data?.msg === "success" && data?.data?.generate_url) {
+        lastRaw = data;
+        const d = data?.data || {};
+
+        // Accept multiple success shapes from the API
+        const resultUrl =
+          d.generate_url ||
+          d.generateUrl ||
+          d.result_url ||
+          d.resultUrl ||
+          d.url ||
+          d.image_url ||
+          d.imageUrl ||
+          (Array.isArray(d.images) && d.images[0]) ||
+          null;
+
+        const isSuccess =
+          Boolean(resultUrl) &&
+          (data?.msg === "success" ||
+            data?.code === 0 ||
+            data?.code === 200 ||
+            d.status === "success" ||
+            d.status === "completed" ||
+            d.status === "done" ||
+            !d.status);
+
+        if (isSuccess && resultUrl) {
           const timeTaken = (attempts * 2.5).toFixed(1);
           await sock.sendMessage(
-            from,
+            targetChat,
             {
-              image: { url: data.data.generate_url },
+              image: { url: resultUrl },
               caption: `🖼️ *AI Processed Image*\n🎨 Style: ${promptEmoji} ${prompt}\n⏱️ *Time:* ${timeTaken}s\n\n📌 *Powered by PRIME-MD*`,
             },
             { quoted: ms }
@@ -280,27 +307,28 @@ cmd(
           try {
             await react("✅");
           } catch {
-            await sock.sendMessage(from, {
+            await sock.sendMessage(targetChat, {
               react: { text: "✅", key: ms.key },
             });
           }
           if (lastUpdateMsg) {
             try {
-              await sock.sendMessage(from, { delete: lastUpdateMsg.key });
+              await sock.sendMessage(targetChat, { delete: lastUpdateMsg.key });
             } catch {}
           }
           return;
         }
 
         if (
-          data?.data?.status === "failed" ||
+          d.status === "failed" ||
+          d.status === "error" ||
           data?.msg === "failed" ||
           data?.code === 500
         ) {
-          throw new Error(data?.msg || "API reported task failed");
+          throw new Error(data?.msg || d.message || "API reported task failed");
         }
 
-        if (attempts % 5 === 0 && attempts < maxAttempts) {
+        if (attempts % 4 === 0 && attempts < maxAttempts) {
           let msgIndex;
           do {
             msgIndex = Math.floor(Math.random() * STATUS_MSGS.length);
@@ -311,13 +339,13 @@ cmd(
           )}s)`;
           try {
             if (lastUpdateMsg) {
-              await sock.sendMessage(from, {
+              await sock.sendMessage(targetChat, {
                 text: coolMsg,
                 edit: lastUpdateMsg.key,
               });
             } else {
               lastUpdateMsg = await sock.sendMessage(
-                from,
+                targetChat,
                 { text: coolMsg },
                 { quoted: ms }
               );
@@ -326,14 +354,17 @@ cmd(
         }
       }
 
-      throw new Error("⏰ Processing timeout – please try again later.");
+      console.error("[undress] timeout last response:", JSON.stringify(lastRaw));
+      throw new Error(
+        "⏰ Processing timeout – the AI is busy. Please try again in a minute."
+      );
     } catch (error) {
       console.error("undress Error:", error?.response?.data || error);
       try {
         await react("❌");
       } catch {
         try {
-          await sock.sendMessage(from, {
+          await sock.sendMessage(targetChat, {
             react: { text: "❌", key: ms.key },
           });
         } catch {}
