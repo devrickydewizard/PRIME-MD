@@ -27,7 +27,7 @@
   "author": "devrickydewizard",
   "license": "MIT",
   "engines": {
-    "node": "20.x"
+    "node": "26.x"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "*",
@@ -87,6 +87,6 @@
     "sqlite3@5.1.7": true
   },
   "devDependencies": {
-    "javascript-obfuscator": "^5.6.0"
+    "javascript-obfuscator": "^5.7.0"
   }
 }
