@@ -1,0 +1,62 @@
+<h1 align="center"> 𝐏𝐑𝐈𝐌𝐄-𝐌𝐃 </h1>
+
+<p align="center">
+  <a href="https://github.com/devrickydewizard/PRIME-MD">
+    <img alt="PRIME-MD banner" width="900" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAwIiBoZWlnaHQ9IjMyMCIgdmlld0JveD0iMCAwIDkwMCAzMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgcm9sZT0iaW1nIj4KPHRpdGxlPlBSSU1FLU1EIGJhbm5lcjwvdGl0bGU+CjxkZXNjPkEgY29sZC10b25lZCBpbGx1c3RyYXRpb24gb2YgYSBzaWxob3VldHRlZCBmaWd1cmUgaW4gYSBmbGF0IGNhcCBhbmQgd2Fpc3Rjb2F0IHdpdGggYSBwb2NrZXQgd2F0Y2ggY2hhaW4sIGluIGFuIGluZHVzdHJpYWwgZWFybHktMjB0aC1jZW50dXJ5IHN0eWxlLCB3aXRoIHRoZSB0ZXh0IFBSSU1FLU1EIGFuZCBQb3dlcmVkIGJ5IFJpY2t5ZGV3aXphcmQuPC9kZXNjPgo8ZGVmcz4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGIxMDE2Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxYjI1MzAiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyIgY3g9IjcyJSIgY3k9IjQ1JSIgcj0iNTUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyNjMzM2YiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBiMTAxNiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9yYWRpYWxHcmFkaWVudD4KPC9kZWZzPgoKPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIzMjAiIGZpbGw9InVybCgjYmcpIi8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI5MDAiIGhlaWdodD0iMzIwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+Cgo8IS0tIGZhY3RvcnkgY2hpbW5leXMgLyBicmljayBiYWNrZHJvcCBoaW50IC0tPgo8ZyBmaWxsPSIjMTUxZDI2IiBvcGFjaXR5PSIwLjYiPgogIDxyZWN0IHg9Ijc0MCIgeT0iMCIgd2lkdGg9IjI2IiBoZWlnaHQ9IjMyMCIvPgogIDxyZWN0IHg9IjgwMCIgeT0iMzAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyOTAiLz4KICA8cmVjdCB4PSI4NTAiIHk9IjEwIiB3aWR0aD0iMTgiIGhlaWdodD0iMzEwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjM2E0YTU4IiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNCI+CiAgPGxpbmUgeDE9Ijc0MCIgeTE9IjAiIHgyPSI3NDAiIHkyPSIzMjAiLz4KICA8bGluZSB4MT0iNzY2IiB5MT0iMCIgeDI9Ijc2NiIgeTI9IjMyMCIvPgogIDxsaW5lIHgxPSI4MDAiIHkxPSIzMCIgeDI9IjgwMCIgeTI9IjMyMCIvPgogIDxsaW5lIHgxPSI4MjAiIHkxPSIzMCIgeDI9IjgyMCIgeTI9IjMyMCIvPgo8L2c+Cgo8IS0tIGNvcm5lciBkZWNvIGZyYW1lIC0tPgo8ZyBzdHJva2U9IiM2Zjg0OTQiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC42IiBmaWxsPSJub25lIj4KICA8cGF0aCBkPSJNMjAgMjAgSDgwIE0yMCAyMCBWODAiLz4KICA8cGF0aCBkPSJNODgwIDIwIEg4MjAgTTg4MCAyMCBWODAiLz4KICA8cGF0aCBkPSJNMjAgMzAwIEg4MCBNMjAgMzAwIFYyNDAiLz4KICA8cGF0aCBkPSJNODgwIDMwMCBIODIwIE04ODAgMzAwIFYyNDAiLz4KPC9nPgoKPCEtLSBzaWxob3VldHRlOiBmbGF0IGNhcCArIHdhaXN0Y29hdCwgdGhyZWUtcXVhcnRlciBmaWd1cmUgLS0+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY2MCwxNTApIiBmaWxsPSIjMDQwNzBhIj4KICA8IS0tIGNvYXQgYm9keSAtLT4KICA8cGF0aCBkPSJNLTcwIDE5MAogICAgICAgICAgIFEtNzggOTAgLTU1IDQwCiAgICAgICAgICAgUS00MCAxMCAwIDAKICAgICAgICAgICBRNDAgMTAgNTUgNDAKICAgICAgICAgICBRNzggOTAgNzAgMTkwCiAgICAgICAgICAgWiIvPgogIDwhLS0gb3BlbiBjb2F0IHJldmVhbGluZyB3YWlzdGNvYXQgLS0+CiAgPHBhdGggZD0iTS00MCAzMCBMLTE0IDE5MCBMMTQgMTkwIEw0MCAzMCBMMTggMjAgTDAgMzQgTC0xOCAyMCBaIiBmaWxsPSIjMWMyNzMzIi8+CiAgPCEtLSB3YWlzdGNvYXQgYnV0dG9ucyAtLT4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iNzAiIHI9IjIuNSIgZmlsbD0iIzZmODQ5NCIvPgogIDxjaXJjbGUgY3g9IjAiIGN5PSI5NSIgcj0iMi41IiBmaWxsPSIjNmY4NDk0Ii8+CiAgPGNpcmNsZSBjeD0iMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjNmY4NDk0Ii8+CiAgPCEtLSB3YXRjaCBjaGFpbiAtLT4KICA8cGF0aCBkPSJNLTYgOTAgUTEwIDExMCA2IDE0MCBRMiAxNTggMTggMTY1IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YzhhNGUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CiAgPGNpcmNsZSBjeD0iMTgiIGN5PSIxNjciIHI9IjUiIGZpbGw9IiNjOWEyNGEiLz4KICA8IS0tIHNob3VsZGVycy9sYXBlbCAtLT4KICA8cGF0aCBkPSJNLTU1IDQwIEwtMjAgNjUgTDAgNDUgTDIwIDY1IEw1NSA0MCBMMzAgMjAgTDAgMzAgTC0zMCAyMCBaIiBmaWxsPSIjMDQwNzBhIi8+CiAgPCEtLSBuZWNrIC0tPgogIDxyZWN0IHg9Ii0xNCIgeT0iLTgiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyNiIgcng9IjYiLz4KICA8IS0tIGhlYWQgLS0+CiAgPGNpcmNsZSBjeD0iMCIgY3k9Ii0zOCIgcj0iMzAiLz4KICA8IS0tIGZsYXQgY2FwIGNyb3duIC0tPgogIDxwYXRoIGQ9Ik0tMzAgLTU1IFEtMzIgLTg2IDAgLTkwIFEzMiAtODYgMzAgLTU1IFEwIC02NiAtMzAgLTU1IFoiLz4KICA8IS0tIGZsYXQgY2FwIGJyaW0gKHNtYWxsIHBlYWssIGZyb250IG9ubHkpIC0tPgogIDxwYXRoIGQ9Ik02IC01NiBRMzQgLTU0IDQwIC00NiBRMzAgLTUwIDYgLTUwIFoiLz4KICA8IS0tIGNhcCBidXR0b24gb24gdG9wIC0tPgogIDxjaXJjbGUgY3g9IjAiIGN5PSItODkiIHI9IjIuNSIgZmlsbD0iIzZmODQ5NCIvPgo8L2c+Cgo8IS0tIHRpdGxlIC0tPgo8dGV4dCB4PSI2MCIgeT0iMTUwIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1RpbWVzIE5ldyBSb21hbicsIHNlcmlmIiBmb250LXNpemU9IjY0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZGJlNmVjIiBsZXR0ZXItc3BhY2luZz0iNCI+UFJJTUUtTUQ8L3RleHQ+CjxyZWN0IHg9IjYyIiB5PSIxNjgiIHdpZHRoPSIzNjAiIGhlaWdodD0iMyIgZmlsbD0iIzZmODQ5NCIvPgo8dGV4dCB4PSI2MCIgeT0iMjAwIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1RpbWVzIE5ldyBSb21hbicsIHNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjOGZhM2IwIiBsZXR0ZXItc3BhY2luZz0iMyI+TVVMVEktREVWSUNFIFdIQVRTQVBQIEJPVDwvdGV4dD4KCjwhLS0gcG93ZXJlZCBieSAtLT4KPHRleHQgeD0iNjAiIHk9IjI1MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdUaW1lcyBOZXcgUm9tYW4nLCBzZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzZmODQ5NCIgbGV0dGVyLXNwYWNpbmc9IjIiPlBPV0VSRUQgQlk8L3RleHQ+Cjx0ZXh0IHg9IjYwIiB5PSIyNzgiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCAnVGltZXMgTmV3IFJvbWFuJywgc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYmU2ZWMiIGxldHRlci1zcGFjaW5nPSIyIj5SSUNLWURFV0laQVJEPC90ZXh0Pgo8L3N2Zz4K">
+  </a>
+</p>
+
+<p align="center">
+<a href="https://github.com/devrickydewizard"><img title="Author" src="https://img.shields.io/badge/Powered%20by-RICKYDEWIZARD-darkgoldenrod?style=for-the-badge&logo=whatsapp"></a>
+<p/>
+
+<p align="center">
+    <strong>1. FORK REPOSITORY</strong>
+  <br>
+    <a href="https://github.com/devrickydewizard/PRIME-MD/fork" target="_blank">
+        <img alt="Fork Repo" src="https://img.shields.io/badge/Fork%20Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkblue&color=darkblue"/>
+    </a>
+</p>
+
+<p align="center">
+    <strong>2. SESSION ID & DEPLOYMENTS</strong>
+    <br>
+    <p align="center">
+  <a href="https://heroku.com/deploy?template=https://github.com/devrickydewizard/PRIME-MD">
+    <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width="200"/>
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://pair.rickydewizard.tech/" target="_blank">
+    <img src="https://img.shields.io/badge/Get_Session-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkred&color=darkred"/>
+  </a>
+</p>
+
+<p align="center">
+  <strong>3. GET SUPPORT</strong>
+  <br>
+  <a href="https://github.com/devrickydewizard/PRIME-MD/issues" target="_blank">
+    <img src="https://img.shields.io/badge/Open%20an%20Issue-100000?style=for-the-badge&logo=github&logoColor=white&labelColor=333333&color=333333"/>
+  </a>
+</p>
+
+---
+
+## About
+
+PRIME-MD is a multi-device WhatsApp bot. Generate a session using the pairing site above, then deploy using the button or by cloning this repo.
+
+## Deploying manually
+
+```bash
+git clone https://github.com/devrickydewizard/PRIME-MD.git
+cd PRIME-MD
+npm install
+cp .env.example .env   # fill in your own SESSION_ID, OWNER_NUMBER, etc.
+npm run dev
+```
+
+## Credits
+
+Built and maintained by [RICKYDEWIZARD](https://github.com/devrickydewizard).

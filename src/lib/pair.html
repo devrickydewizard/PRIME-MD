@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PRIME-MD • Pair Your Session</title>
+<style>
+  :root {
+    --bg-1: #0b0f19;
+    --bg-2: #121826;
+    --accent: #7c5cff;
+    --accent-2: #22d3ee;
+    --text: #eef1f7;
+    --muted: #8a91a8;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --success: #34d399;
+    --error: #f87171;
+    --warn: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 20% 20%, #1b1440 0%, var(--bg-1) 45%),
+                radial-gradient(circle at 80% 80%, #062a33 0%, var(--bg-1) 50%),
+                var(--bg-1);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 24px;
+  }
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .brand {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 22px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 0.5px;
+  }
+  .brand p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .tabs {
+    display: flex;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .tab.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b0f19;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  input[type="text"]:focus { border-color: var(--accent); }
+  input[type="text"]::placeholder { color: var(--muted); }
+  input[type="text"]:disabled { opacity: 0.5; }
+
+  button.primary {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b0f19;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  button.primary:hover:not(:disabled) { transform: translateY(-1px); }
+  button.primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .status-box {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .qr-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .qr-wrap img {
+    width: 220px;
+    height: 220px;
+    border-radius: 14px;
+    background: white;
+    padding: 10px;
+  }
+  .pulse {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    margin-right: 8px;
+    animation: pulse 1.2s infinite;
+    vertical-align: middle;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,211,238,0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(34,211,238,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); }
+  }
+  .code-display {
+    font-family: "SF Mono", Consolas, monospace;
+    font-size: 28px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: var(--accent-2);
+    margin: 16px 0 4px;
+    user-select: all;
+  }
+  .msg { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .msg.error { color: var(--error); }
+  .msg.warn { color: var(--warn); }
+  .msg.success { color: var(--success); }
+
+  /* Error/warning banner that stacks ABOVE the persisted code/QR instead
+     of replacing it, so a transient disconnect doesn't wipe a code the
+     user could still copy and use. */
+  .banner {
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  .banner.error { background: rgba(248,113,113,0.12); color: var(--error); border: 1px solid rgba(248,113,113,0.3); }
+  .banner.warn { background: rgba(251,191,36,0.12); color: var(--warn); border: 1px solid rgba(251,191,36,0.3); }
+
+  .session-box {
+    margin-top: 16px;
+    text-align: left;
+  }
+  textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.3);
+    color: var(--success);
+    font-family: monospace;
+    font-size: 11px;
+    padding: 10px;
+    margin-top: 8px;
+  }
+  .copy-btn, .reset-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .copy-btn:hover, .reset-btn:hover { background: rgba(255,255,255,0.09); }
+  .copy-btn.copied { border-color: var(--success); color: var(--success); }
+  .warn-text {
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand">
+    <h1>PRIME-MD</h1>
+    <p>Link your WhatsApp to generate a session</p>
+  </div>
+
+  <div class="tabs">
+    <a class="tab" id="tabQr" href="#">QR Code</a>
+    <a class="tab" id="tabCode" href="#">Pairing Code</a>
+  </div>
+
+  <div class="panel" id="panel-qr">
+    <button class="primary" id="startQrBtn">Generate QR Code</button>
+    <div class="status-box" id="qrStatus"></div>
+  </div>
+
+  <div class="panel" id="panel-code">
+    <input type="text" id="phoneInput" placeholder="e.g. 254712345678 (with country code)" />
+    <button class="primary" id="startCodeBtn">Get Pairing Code</button>
+    <div class="status-box" id="codeStatus"></div>
+  </div>
+</div>
+
+<script>
+  // /pair and /pair/qr are real, separate pages (the server injects which
+  // one this is before this script runs) — the links below preserve that
+  // as actual navigation rather than just a client-side class toggle, so
+  // each mode has its own shareable URL.
+  const defaultTab = window.__PRIME_MD_DEFAULT_TAB__ || 'code';
+  const urlKeyForLinks = new URLSearchParams(window.location.search).get('key');
+  const keySuffix = urlKeyForLinks ? `?key=${encodeURIComponent(urlKeyForLinks)}` : '';
+
+  const tabQr = document.getElementById('tabQr');
+  const tabCode = document.getElementById('tabCode');
+  tabQr.href = `/pair/qr${keySuffix}`;
+  tabCode.href = `/pair${keySuffix}`;
+
+  const panels = { qr: document.getElementById('panel-qr'), code: document.getElementById('panel-code') };
+  [tabQr, tabCode].forEach(t => t.classList.remove('active'));
+  Object.values(panels).forEach(p => p.classList.remove('active'));
+  (defaultTab === 'qr' ? tabQr : tabCode).classList.add('active');
+  panels[defaultTab].classList.add('active');
+
+  const urlKey = new URLSearchParams(window.location.search).get('key');
+  const keyParam = urlKey ? `?key=${encodeURIComponent(urlKey)}` : '';
+
+  const CLIENT_TIMEOUT_MS = 3 * 60 * 1000;
+  let pollTimer = null;
+  let timeoutTimer = null;
+  let activeBtn = null;
+  let activeInputs = [];
+
+  // Tracks the last-rendered QR/code markup per container so an error
+  // banner can stack ABOVE it instead of wiping it out. This is the fix:
+  // a transient "Connection Failure" no longer destroys a code you could
+  // still copy and use.
+  const lastCodeMarkup = new Map(); // container -> html string
+
+  // Tracks codes we've already fired a browser notification for, so we
+  // don't re-notify every 2.5s poll tick while the same code is showing.
+  const notifiedCodes = new Set();
+
+  function requestNotifyPermission() {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }
+
+  function notifyCodeReady(code) {
+    if (notifiedCodes.has(code)) return;
+    notifiedCodes.add(code);
+
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try {
+        const n = new Notification('PRIME-MD: Your pairing code is ready', {
+          body: `${code} — open WhatsApp → Linked Devices → Link with phone number to enter it.`,
+          tag: 'primemd-pair-code',
+        });
+        n.onclick = () => { window.focus(); n.close(); };
+      } catch (e) { /* ignore notification errors */ }
+    }
+
+    // Fallback for browsers/contexts where Notification isn't available or
+    // permission wasn't granted: a short vibration if supported, so a user
+    // holding the phone still gets a nudge.
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate([120, 60, 120]); } catch (e) {}
+    }
+  }
+
+  function copyToClipboard(text, btn) {
+    const done = () => {
+      const original = btn.dataset.label || btn.textContent;
+      btn.textContent = '✅ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  function stopPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (timeoutTimer) { clearTimeout(timeoutTimer); timeoutTimer = null; }
+  }
+
+  function unlockControls() {
+    if (activeBtn) { activeBtn.disabled = false; activeBtn.textContent = activeBtn.dataset.label || activeBtn.textContent; }
+    activeInputs.forEach(el => { el.disabled = false; });
+    activeBtn = null;
+    activeInputs = [];
+  }
+
+  function resetButton(container) {
+    const btn = document.createElement('button');
+    btn.className = 'reset-btn';
+    btn.textContent = '↺ Start Over';
+    btn.addEventListener('click', () => {
+      container.innerHTML = '';
+      lastCodeMarkup.delete(container);
+    });
+    container.appendChild(btn);
+  }
+
+  function renderStatus(container, data) {
+    if (data.status === 'not_found') {
+      // The session is gone server-side (expired or already cleaned up).
+      // Previously this fell through to the generic "Connecting..." spinner,
+      // which looked like the code/QR had just vanished. Show a clear
+      // message instead and stop polling.
+      stopPolling();
+      unlockControls();
+      const preserved = lastCodeMarkup.get(container);
+      container.innerHTML = `
+        <div class="banner warn">⏱️ This pairing session has expired.</div>
+        ${preserved || ''}`;
+      resetButton(container);
+      return;
+    }
+
+    if (data.status === 'error') {
+      stopPolling();
+      unlockControls();
+      const preserved = lastCodeMarkup.get(container);
+      if (preserved) {
+        // Keep showing the last code/QR the user had, with a warning
+        // banner above it instead of erasing it. It may no longer work
+        // if the failure was permanent, but the user can still see and
+        // copy it rather than losing it instantly.
+        container.innerHTML = `
+          <div class="banner error">❌ ${data.error || 'Connection lost.'} The code below may no longer be valid — try again if it doesn't work.</div>
+          ${preserved}`;
+      } else {
+        container.innerHTML = `<p class="msg error">❌ ${data.error || 'Something went wrong.'}</p>`;
+      }
+      resetButton(container);
+      return;
+    }
+
+    if (data.status === 'connected') {
+      stopPolling();
+      unlockControls();
+      lastCodeMarkup.delete(container);
+      container.innerHTML = `
+        <p class="msg success">✅ Paired successfully!</p>
+        <p class="warn-text">Your session ID has been sent to your own WhatsApp DM. It is not shown here for security. Open WhatsApp and check messages to yourself.</p>`;
+      resetButton(container);
+      return;
+    }
+
+    if (data.qr) {
+      const markup = `
+        <p class="msg"><span class="pulse"></span>Scan with WhatsApp → Linked Devices</p>
+        <div class="qr-wrap"><img src="${data.qr}" alt="QR code" /></div>`;
+      lastCodeMarkup.set(container, markup);
+      container.innerHTML = markup;
+      return;
+    }
+
+    if (data.code) {
+      const markup = `
+        <p class="msg"><span class="pulse"></span>Enter this code in WhatsApp → Linked Devices → Link with phone number</p>
+        <p class="msg">💬 We've also sent this code as a WhatsApp message to that number, if available.</p>
+        <div class="code-display" id="pairCodeText">${data.code}</div>
+        <button class="copy-btn" id="copyCodeBtn" data-label="📋 Copy Code">📋 Copy Code</button>
+        <p class="msg">The code stays visible even if the connection blips — copy it any time.</p>`;
+      lastCodeMarkup.set(container, markup);
+      container.innerHTML = markup;
+
+      const copyBtn = container.querySelector('#copyCodeBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => copyToClipboard(data.code, copyBtn));
+      }
+      notifyCodeReady(data.code);
+      return;
+    }
+
+    container.innerHTML = `<p class="msg"><span class="pulse"></span>Connecting...</p>`;
+  }
+
+  async function startPairing(method, container, btn, phone) {
+    container.innerHTML = `<p class="msg"><span class="pulse"></span>Starting...</p>`;
+    lastCodeMarkup.delete(container);
+    stopPolling();
+
+    btn.dataset.label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Working...';
+    activeBtn = btn;
+    activeInputs = method === 'code' ? [document.getElementById('phoneInput')] : [];
+    activeInputs.forEach(el => { el.disabled = true; });
+
+    let res, data;
+    try {
+      res = await fetch(`/pair/start${keyParam}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ method, phone }),
+      });
+      data = await res.json();
+    } catch (e) {
+      container.innerHTML = `<p class="msg error">❌ Could not reach server.</p>`;
+      unlockControls();
+      return;
+    }
+
+    if (!res.ok) {
+      container.innerHTML = `<p class="msg error">❌ ${data.error || 'Request failed.'}</p>`;
+      unlockControls();
+      return;
+    }
+
+    const pairId = data.pairId;
+
+    pollTimer = setInterval(async () => {
+      try {
+        const sRes = await fetch(`/pair/status/${pairId}${keyParam}`);
+        const sData = await sRes.json();
+        renderStatus(container, sData);
+      } catch (e) {
+        // transient network error, keep polling
+      }
+    }, 2500);
+
+    timeoutTimer = setTimeout(() => {
+      stopPolling();
+      unlockControls();
+      const preserved = lastCodeMarkup.get(container);
+      if (preserved) {
+        container.innerHTML = `<div class="banner warn">⏱️ Timed out waiting for pairing.</div>${preserved}`;
+      } else {
+        container.innerHTML = `<p class="msg error">❌ Timed out waiting for pairing. Please try again.</p>`;
+      }
+      resetButton(container);
+    }, CLIENT_TIMEOUT_MS);
+  }
+
+  document.getElementById('startQrBtn').addEventListener('click', (e) => {
+    startPairing('qr', document.getElementById('qrStatus'), e.currentTarget);
+  });
+
+  document.getElementById('startCodeBtn').addEventListener('click', (e) => {
+    const phone = document.getElementById('phoneInput').value.trim();
+    if (!/^\d{8,15}$/.test(phone)) {
+      document.getElementById('codeStatus').innerHTML = `<p class="msg error">Enter a valid number, digits only, with country code.</p>`;
+      return;
+    }
+    requestNotifyPermission();
+    notifiedCodes.clear();
+    startPairing('code', document.getElementById('codeStatus'), e.currentTarget, phone);
+  });
+</script>
+
+</body>
+</html>

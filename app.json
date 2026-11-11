@@ -1,0 +1,59 @@
+{
+  "name": "PRIME-MD",
+  "version": "10.0.0",
+  "description": "PRIME-MD is a powerful Multi Device WhatsApp Bot designed to enhance automation, moderation, and user experience on WhatsApp.",
+  "logo": "https://files.catbox.moe/m8t72a.jpg",
+  "keywords": [
+    "PRIME-MD",
+    "whatsapp-bot",
+    "multi-device",
+    "baileys",
+    "automation",
+    "bot"
+  ],
+  "success_url": "/",
+  "stack": "heroku-24",
+  "env": {
+    "SESSION_ID": {
+      "description": "Your WhatsApp SESSION_ID. Generate it from the pairing website.",
+      "required": true,
+      "value": ""
+    },
+    "USE_NPM_INSTALL": {
+      "description": "Makes Heroku run npm install instead of npm ci, so the build never fails on a lock file problem.",
+      "required": false,
+      "value": "true"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:essential-0",
+      "as": "DATABASE"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "environments": {
+    "test": {
+      "addons": [],
+      "env": {
+        "DATABASE_URL": ""
+      }
+    }
+  }
+}
